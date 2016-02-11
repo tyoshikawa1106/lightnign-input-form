@@ -1,0 +1,127 @@
+<aura:component >
+    <div>
+        <div aria-hidden="false" role="dialog" class="slds-modal slds-modal--large slds-fade-in-open">
+            <div class="slds-modal__container slds-modal--large">
+                <div class="slds-modal__header">
+                    <h2 class="slds-text-heading--medium">取引先の検索</h2>
+                    <button class="slds-button slds-button--icon-inverse slds-modal__close">
+                        <c:svg ariaHidden="true" class="slds-button__icon slds-button__icon--large"
+                                xlinkHref="/resource/SLDS0122/assets/icons/action-sprite/svg/symbols.svg#close" />
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </div>
+                <div class="slds-modal__content">
+                    <div class="slds-lookup" data-select="multi" data-scope="single" data-typeahead="true">
+                        <div class="slds-form-element slds-m-bottom--small">
+                            <label class="slds-form-element__label" for="lookup">取引先名</label>
+                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                                <c:svg ariaHidden="true" class="slds-input__icon"
+                                            xlinkHref="/resource/SLDS0122/assets/icons/utility-sprite/svg/symbols.svg#search" />
+                                <input id="lookup" class="slds-input" type="text" aria-haspopup="true"
+                                            aria-autocomplete="list" role="combobox" aria-activedescendant="" />
+                            </div>
+                        </div>
+                        <table class="slds-table slds-table--bordered slds-no-row-hover" role="listbox">
+                            <thead>
+                                <tr>
+                                    <th colspan="4" scope="col">
+                                        <div class="slds-float--right">
+                                            <button class="slds-button slds-button--icon-bare slds-button--icon-x-small">
+                                                <c:svg ariaHidden="true" class="slds-button__icon"
+                                                        xlinkHref="/resource/SLDS0122/assets/icons/utility-sprite/svg/symbols.svg#filterList" />
+                                                <span class="slds-assistive-text">Filter List</span>
+                                            </button>
+                                            <button class="slds-button slds-button--icon-bare slds-button--icon-x-small">
+                                                <c:svg ariaHidden="true" class="slds-button__icon"
+                                                    xlinkHref="/resource/SLDS0122/assets/icons/utility-sprite/svg/symbols.svg#sort" />
+                                                <span class="slds-assistive-text">Sort</span>
+                                            </button>
+                                        </div>
+                                        5 Results, sorted by relevancy
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th scope="col">Account Name</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Secondary Column</th>
+                                    <th scope="col">Tertiary Column</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        <a id="s01" onclick="{!c.selectAccount}" role="option">
+                                            <c:svg ariaHidden="true"
+                                                class="slds-icon slds-icon-standard-account slds-icon--small slds-m-right--x-small"
+                                                xlinkHref="/resource/SLDS0122/assets/icons/standard-sprite/svg/symbols.svg#account" />
+                                            Acme Landscape
+                                        </a>
+                                    </th>
+                                    <td>Seattle, WA</td>
+                                    <td>Secondary Field</td>
+                                    <td>Tertiary Field</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <a id="s02" onclick="{!c.selectAccount}" role="option">
+                                            <c:svg ariaHidden="true"
+                                                    class="slds-icon slds-icon-standard-account slds-icon--small slds-m-right--x-small"
+                                                    xlinkHref="/resource/SLDS0122/assets/icons/standard-sprite/svg/symbols.svg#account" />
+                                                    ACME Construction
+                                        </a>
+                                    </th>
+                                    <td>San Francisco, CA</td>
+                                    <td>Secondary Field</td>
+                                    <td>Tertiary Field</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <a id="s03" onclick="{!c.selectAccount}" role="option">
+                                            <c:svg ariaHidden="true" class="slds-icon slds-icon-standard-account slds-icon--small slds-m-right--x-small"
+                                                    xlinkHref="/resource/SLDS0122/assets/icons/standard-sprite/svg/symbols.svg#account" />
+                                            Action Sports
+                                        </a>
+                                    </th>
+                                    <td>Madison, WI</td>
+                                    <td>Secondary Field</td>
+                                    <td>Tertiary Field</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <a id="s04" onclick="{!c.selectAccount}" role="option">
+                                            <c:svg ariaHidden="true" class="slds-icon slds-icon-standard-account slds-icon--small slds-m-right--x-small"
+                                                xlinkHref="/resource/SLDS0122/assets/icons/standard-sprite/svg/symbols.svg#account" />
+                                            Moderno Bistro
+                                        </a>
+                                    </th>
+                                    <td>Acton, OH</td>
+                                    <td>Secondary Field</td>
+                                    <td>Tertiary Field</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <a id="s05" onclick="{!c.selectAccount}" role="option">
+                                            <c:svg ariaHidden="true" class="slds-icon slds-icon-standard-account slds-icon--small slds-m-right--x-small"
+                                                xlinkHref="/resource/SLDS0122/assets/icons/standard-sprite/svg/symbols.svg#account" />
+                                            Cozy Kitchen
+                                        </a>
+                                    </th>
+                                    <td>Acton, CA</td>
+                                    <td>Secondary Field</td>
+                                    <td>Tertiary Field</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="slds-modal__footer slds-modal__footer--directional">
+                    <div class="slds-x-small-buttons--horizontal">
+                        <button class="slds-button slds-button--neutral" onclick="{!c.cancelBtn}">キャンセル</button>
+                        <button class="slds-button slds-button--brand" onclick="{!c.searchBtn}">検索</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </div>
+</aura:component>

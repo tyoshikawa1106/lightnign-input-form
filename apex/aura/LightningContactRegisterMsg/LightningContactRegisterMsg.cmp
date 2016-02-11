@@ -1,0 +1,18 @@
+<aura:component >
+    <!-- メッセージ -->
+    <aura:attribute name="messages" type="String[]" />
+    <!-- component -->
+    <aura:if isTrue="{! !empty(v.messages)}">
+        <div class="slds-box slds-theme--info slds-m-bottom--small">
+            <p>
+                <ul>
+                    <aura:iteration items="{!v.messages}" var="msg" indexVar="index" >
+                        <li>
+                            <ui:outputText value="{!msg}" />
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </p>
+        </div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,177 @@
+<aura:component Controller="ContactInputController">
+    <!-- attribute -->
+    <aura:attribute name="contact" type="Contact" default="{ 'sobjectType': 'Contact'}" />
+    <aura:attribute name="messages" type="String[]" />
+    <aura:attribute name="errorMEssages" type="String[]" />
+    <aura:attribute name="accounts" type="Account[]" />
+    <aura:attribute name="leadSourceSelectOptions" type="String[]" default="Web,Partner Referral,Purchased List,Other" />
+    <!-- Account Lookup -->
+    <aura:attribute name="lookupAccountName" type="String" />
+    <aura:attribute name="lookupAccountId" type="Id" />
+    <!-- Account Popup -->
+    <aura:attribute name="isPopupAccountShow" type="Boolean" default="false" /> 
+    <!-- Lightning Event -->
+    <aura:handler event="c:LightningLookupAccountEvt" action="{!c.setLookupAccount}" />
+    <aura:handler event="c:LightningPopupAccountSearchCancelEvt" action="{!c.hidePopupAccountSearch}" />
+
+    <!-- component -->
+    <div class="slds-m-around--medium">
+        <!-- Input Form -->
+        <form name="inputForm" novalidate="true" class="slds-m-horizontal--small">
+            <!-- メッセージ -->
+            <c:LightningContactRegisterMsg messages="{!v.messages}" />
+            <!-- エラーメッセージ -->
+            <c:LightningContactRegisterMsg messages="{!v.errorMessages}" />
+            <!-- 姓 -->
+            <div aura:id="input_lastName" class="slds-form-element slds-is-required" >
+                <label class="slds-form-element__label">姓</label>
+                <div class="slds-form-element__control">
+                    <ui:inputText value="{!v.contact.LastName}" class="slds-input" required="true" maxlength="80" />
+                    <div class="slds-form-element__help">
+                        <ui:outputText aura:id="lastNameErrorMsg" value="" />
+                    </div>
+                </div>
+            </div>
+            <!-- 名 -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">名</label>
+                <div class="slds-form-element__control">
+                    <ui:inputText value="{!v.contact.FirstName}" class="slds-input" maxlength="40" />
+                    <div class="slds-form-element__help"></div>
+                </div>
+            </div>
+            <!-- 取引先 -->
+            <div class="slds-lookup" data-select="single" data-scope="single" data-typeahead="true">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="lookup">取引先</label>
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                        <!-- 取引先選択時 -->
+                        <aura:if isTrue="{! !empty(v.lookupAccountId)}">
+                            <div class="slds-pill__container">
+                                <a class="slds-pill">
+                                    <c:svg ariaHidden="true" class="slds-icon slds-icon-standard-account slds-pill__icon"
+                                                xlinkHref="/resource/SLDS0122/assets/icons/standard-sprite/svg/symbols.svg#account" />
+                                    <span class="slds-pill__label">{!v.lookupAccountName}</span>
+                                    <button class="slds-button slds-button--icon-bare slds-pill__remove" onclick="{!c.clearLookupAccount}">
+                                        <c:svg ariaHidden="true" class="slds-button__icon"
+                                            xlinkHref="/resource/SLDS0122/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                                        <span class="slds-assistive-text">Remove</span>
+                                    </button>
+                                </a>
+                            </div>
+                        </aura:if>
+                        <!-- 取引先名入力 -->
+                        <aura:if isTrue="{! empty(v.lookupAccountId)}">
+                            <c:svg ariaHidden="true" class="slds-input__icon"
+                                        xlinkHref="/resource/SLDS0122/assets/icons/utility-sprite/svg/symbols.svg#search" />
+                            <input value="{!v.lookupAccountName}" class="slds-input" type="text" aria-autocomplete="list"
+                                role="combobox" aria-expanded="true" aria-activedescendant="" onkeyup="{!c.accountRealtimeSearch}" />
+                        </aura:if>
+                        <div class="slds-form-element__help"></div>
+                    </div>
+                </div>
+                <!-- 取引先選択リスト -->
+                <aura:if isTrue="{! !empty(v.accounts)}">
+                    <div class="slds-lookup__menu" role="listbox">
+                        <div class="slds-lookup__item">
+                            <button class="slds-button" onclick="{!c.showPopupAccountSearch}">
+                                <c:svg ariaHidden="true" class="slds-icon slds-icon-text-default slds-icon--small"
+                                        xlinkHref="/resource/SLDS0122/assets/icons/utility-sprite/svg/symbols.svg#search" />
+                                検索ポップアップを表示
+                            </button>
+                        </div>
+                        <ul class="slds-lookup__list" role="presentation">
+                            <aura:iteration items="{!v.accounts}" var="item" indexVar="index" >
+                                <c:LightningLookupAccountSelect accountName="{!item.Name}" accountId="{!item.Id}" />
+                            </aura:iteration>
+                        </ul>
+                        <div class="slds-form-element__help"></div>
+                    </div>
+                </aura:if>
+            </div>
+            <!-- 電話 -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">電話</label>
+                <div class="slds-form-element__control">
+                    <ui:inputPhone value="{!v.contact.Phone}" class="slds-input" maxlength="40"  />
+                    <div class="slds-form-element__help"></div>
+                </div>
+            </div>
+            <!-- メール -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">メール</label>
+                <div class="slds-form-element__control">
+                    <ui:inputEmail value="{!v.contact.Email}" class="slds-input" maxlength="40"  />
+                    <div class="slds-form-element__help"></div>
+                </div>
+            </div>
+            <!-- メール送信除外 -->
+            <div class="slds-form-element__control slds-m-vertical--xx-small">
+                <label class="slds-checkbox">
+                    <ui:inputCheckbox value="{!v.contact.HasOptedOutOfEmail}" class="slds-checkbox" />
+                    <span class="slds-checkbox--faux"></span>
+                    <span class="slds-form-element__label">メール送信除外</span>
+                </label>
+                <div class="slds-form-element__help"></div>
+            </div>
+            <!-- 誕生日 -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">誕生日</label>
+                <div class="slds-form-element__control">
+                    <ui:inputDate value="{!v.contact.Birthdate}" class="slds-input" />
+                    <div class="slds-form-element__help"></div>
+                </div>
+            </div>
+            <!-- リードソース -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">リードソース</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                        <ui:inputSelect value="{!v.contact.LeadSource}" class="slds-select">
+                            <ui:inputSelectOption text="" label="-- なし --" value="true" />
+                            <aura:iteration items="{!v.leadSourceSelectOptions}" var="item" indexVar="index" >
+                                <ui:inputSelectOption text="{!item}" label="{!item}" />
+                            </aura:iteration>
+                        </ui:inputSelect>
+                    </div>
+                    <div class="slds-form-element__help"></div>
+                </div>
+            </div>
+            <!-- 国 -->
+            <div aura:id="input_country" class="slds-form-element slds-is-required">
+                <legend class="slds-form-element__label slds-form-element__label--top">国</legend>
+                <div class="slds-form-element__control">
+                    <label class="slds-radio">
+                        <ui:inputRadio aura:id="countryJapan" name="country" text="JAPAN" change="{!c.onCountryRadioGroup}" />
+                        <span class="slds-radio--faux"></span>
+                        <span class="slds-form-element__label">JAPAN</span>
+                    </label>
+                    <label class="slds-radio">
+                        <ui:inputRadio aura:id="countryUSA" name="country" text="NOT JAPAN" change="{!c.onCountryRadioGroup}" />
+                        <span class="slds-radio--faux"></span>
+                        <span class="slds-form-element__label">NOT JAPAN</span>
+                    </label>
+                    <div class="slds-form-element__help">
+                        <ui:outputText aura:id="countryErrorMsg" value="" />
+                    </div>
+                </div>
+            </div>
+            <!-- 説明 -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">説明</label>
+                <div class="slds-form-element__control">
+                    <ui:inputTextArea value="{!v.contact.Description}" class="slds-input" />
+                    <div class="slds-form-element__help"></div>
+                </div>
+            </div>
+            <!-- 保存ボタン -->
+            <div class="slds-m-top--medium">
+                <ui:button label="保存" class="slds-button slds-button--brand" press="{!c.doSave}"/>
+            </div>
+        </form>
+        <!-- Account Lookup -->
+        <aura:if isTrue="{!v.isPopupAccountShow}">
+            <c:LightningPopupAccountSearch />
+        </aura:if>
+    </div>
+</aura:component>

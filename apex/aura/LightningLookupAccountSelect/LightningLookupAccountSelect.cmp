@@ -1,0 +1,13 @@
+<aura:component >
+    <!-- attribute -->
+    <aura:attribute name="accountName" type="String" />
+    <aura:attribute name="accountId" type="Id" />
+    <!-- component -->
+    <li class="slds-lookup__item" onclick="{!c.selectAccount}">
+        <a role="option">
+            <c:svg ariaHidden="true" class="slds-icon slds-icon-standard-account slds-icon--small"
+                xlinkHref="/resource/SLDS0122/assets/icons/standard-sprite/svg/symbols.svg#account" />
+            <ui:outputText value="{!v.accountName}" />
+        </a>
+    </li>
+</aura:component>

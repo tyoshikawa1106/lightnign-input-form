@@ -1,0 +1,8 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable">
+    <!-- Lightning Design System -->
+    <ltng:require styles="/resource/SLDS0122/assets/styles/salesforce-lightning-design-system.css" />
+    <!-- componnent -->
+    <div class="slds">
+        <c:LightningContactInput />
+    </div>
+</aura:component>
