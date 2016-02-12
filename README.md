@@ -1,5 +1,5 @@
 # lightnign-input-form
-Lightning Componentの入力フォームのサンプルです。
+Lightning Componentの入力フォームのサンプルです。  
 CSS部分はLightnig Design Systemを利用しています。
 
 ## 画面イメージ
