@@ -1,4 +1,7 @@
 # lightnign-input-form
+Lightning Componentの入力フォームのサンプルです。
+CSS部分はLightnig Design Systemを利用しています。
+
 ## 画面イメージ
 ### 入力画面  
 <img src="http://f.st-hatena.com/images/fotolife/t/tyoshikawa1106/20160211/20160211235215.png" />
