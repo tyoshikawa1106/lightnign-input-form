@@ -74,11 +74,11 @@ private class ContactInputControllerTest {
 
             Test.startTest();
             
-            List<Account> accounts = ContactInputController.getAccounts(key);
+            List<Account> results = ContactInputController.getAccounts(key);
             
             Test.stopTest();
 
-            System.assertEquals(accounts.size(), 0);
+            System.assertEquals(results.size(), 0);
         }
     }
 
@@ -97,11 +97,54 @@ private class ContactInputControllerTest {
 
             Test.startTest();
             
-            List<Account> accounts = ContactInputController.getAccounts(key);
+            List<Account> results = ContactInputController.getAccounts(key);
             
             Test.stopTest();
 
-            System.assertEquals(accounts.size(), 1);
+            System.assertEquals(results.size(), 1);
+        }
+    }
+
+    /**
+     * 取引先責任者の検索
+     * 値なし
+     */
+    static testMethod void getContactTest1() {
+        
+        System.runAs(testAdminUser) {
+
+            String contactId = '';
+
+            Test.startTest();
+            
+            Contact result = ContactInputController.getContact(contactId);
+            
+            Test.stopTest();
+
+            System.assertEquals(String.isEmpty(result.Id), true);
+        }
+    }
+
+    /**
+     * 取引先責任者の検索
+     * 値あり
+     */
+    static testMethod void getContactTest2() {
+        
+        System.runAs(testAdminUser) {
+
+            Contact contact = new Contact(LastName = 'Yoshikawa');
+            insert contact;
+
+            String contactId = contact.Id;
+
+            Test.startTest();
+            
+            Contact result = ContactInputController.getContact(contactId);
+            
+            Test.stopTest();
+
+            System.assertEquals(String.isNotEmpty(result.Id), true);
         }
     }
 }

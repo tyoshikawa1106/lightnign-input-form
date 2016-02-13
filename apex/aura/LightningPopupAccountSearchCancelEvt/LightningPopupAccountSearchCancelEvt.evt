@@ -1,1 +1,1 @@
-<aura:event type="APPLICATION" description="Event template" />
+<aura:event access="public" type="APPLICATION" description="Event template" />

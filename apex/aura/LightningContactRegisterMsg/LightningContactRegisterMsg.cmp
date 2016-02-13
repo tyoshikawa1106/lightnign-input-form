@@ -1,4 +1,4 @@
-<aura:component >
+<aura:component access="public">
     <!-- メッセージ -->
     <aura:attribute name="messages" type="String[]" />
     <!-- component -->

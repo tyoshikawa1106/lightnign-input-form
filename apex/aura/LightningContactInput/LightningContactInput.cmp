@@ -1,5 +1,6 @@
-<aura:component Controller="ContactInputController">
+<aura:component access="public" controller="ContactInputController">
     <!-- attribute -->
+    <aura:attribute name="recordId" type="Id" />
     <aura:attribute name="contact" type="Contact" default="{ 'sobjectType': 'Contact'}" />
     <aura:attribute name="messages" type="String[]" />
     <aura:attribute name="errorMEssages" type="String[]" />
@@ -10,10 +11,11 @@
     <aura:attribute name="lookupAccountId" type="Id" />
     <!-- Account Popup -->
     <aura:attribute name="isPopupAccountShow" type="Boolean" default="false" /> 
+    <!-- handler -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
     <!-- Lightning Event -->
     <aura:handler event="c:LightningLookupAccountEvt" action="{!c.setLookupAccount}" />
     <aura:handler event="c:LightningPopupAccountSearchCancelEvt" action="{!c.hidePopupAccountSearch}" />
-
     <!-- component -->
     <div class="slds-m-around--medium">
         <!-- Input Form -->
@@ -26,7 +28,7 @@
             <div aura:id="input_lastName" class="slds-form-element slds-is-required" >
                 <label class="slds-form-element__label">姓</label>
                 <div class="slds-form-element__control">
-                    <ui:inputText value="{!v.contact.LastName}" class="slds-input" required="true" maxlength="80" />
+                    <ui:inputText value="{!v.contact.LastName}" class="slds-input" />
                     <div class="slds-form-element__help">
                         <ui:outputText aura:id="lastNameErrorMsg" value="" />
                     </div>
@@ -36,7 +38,7 @@
             <div class="slds-form-element">
                 <label class="slds-form-element__label">名</label>
                 <div class="slds-form-element__control">
-                    <ui:inputText value="{!v.contact.FirstName}" class="slds-input" maxlength="40" />
+                    <ui:inputText value="{!v.contact.FirstName}" class="slds-input" />
                     <div class="slds-form-element__help"></div>
                 </div>
             </div>
@@ -93,7 +95,7 @@
             <div class="slds-form-element">
                 <label class="slds-form-element__label">電話</label>
                 <div class="slds-form-element__control">
-                    <ui:inputPhone value="{!v.contact.Phone}" class="slds-input" maxlength="40"  />
+                    <ui:inputPhone value="{!v.contact.Phone}" class="slds-input" />
                     <div class="slds-form-element__help"></div>
                 </div>
             </div>
@@ -101,7 +103,7 @@
             <div class="slds-form-element">
                 <label class="slds-form-element__label">メール</label>
                 <div class="slds-form-element__control">
-                    <ui:inputEmail value="{!v.contact.Email}" class="slds-input" maxlength="40"  />
+                    <ui:inputEmail value="{!v.contact.Email}" class="slds-input" />
                     <div class="slds-form-element__help"></div>
                 </div>
             </div>
@@ -142,14 +144,14 @@
                 <legend class="slds-form-element__label slds-form-element__label--top">国</legend>
                 <div class="slds-form-element__control">
                     <label class="slds-radio">
-                        <ui:inputRadio aura:id="countryJapan" name="country" text="JAPAN" change="{!c.onCountryRadioGroup}" />
+                        <ui:inputRadio aura:id="countryJapan" name="country" text="Japan" change="{!c.onCountryRadioGroup}" />
                         <span class="slds-radio--faux"></span>
-                        <span class="slds-form-element__label">JAPAN</span>
+                        <span class="slds-form-element__label">Japan</span>
                     </label>
                     <label class="slds-radio">
-                        <ui:inputRadio aura:id="countryUSA" name="country" text="NOT JAPAN" change="{!c.onCountryRadioGroup}" />
+                        <ui:inputRadio aura:id="countryOther" name="country" text="Other" change="{!c.onCountryRadioGroup}" />
                         <span class="slds-radio--faux"></span>
-                        <span class="slds-form-element__label">NOT JAPAN</span>
+                        <span class="slds-form-element__label">Other</span>
                     </label>
                     <div class="slds-form-element__help">
                         <ui:outputText aura:id="countryErrorMsg" value="" />
@@ -164,9 +166,9 @@
                     <div class="slds-form-element__help"></div>
                 </div>
             </div>
-            <!-- 保存ボタン -->
+            <!-- ボタン -->
             <div class="slds-m-top--medium">
-                <ui:button label="保存" class="slds-button slds-button--brand" press="{!c.doSave}"/>
+                <ui:button aura:id="saveBtn" label="保存" class="slds-button slds-button--brand" press="{!c.saveContact}"/>
             </div>
         </form>
         <!-- Account Lookup -->

@@ -1,0 +1,4 @@
+<aura:event access="public" type="APPLICATION" description="Event template">
+    <aura:attribute name="pageType" type="String" />
+    <aura:attribute name="recordId" type="Id" />
+</aura:event>

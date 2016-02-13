@@ -1,6 +1,6 @@
 public with sharing class ContactInputController {
 
-    private static ContactInputDao dao = new ContactInputDao();
+    private static ContactRegisterDao dao = new ContactRegisterDao();
 
     /**
      * コンストラクタ
@@ -41,5 +41,16 @@ public with sharing class ContactInputController {
             return new List<Account>();
         }
         return dao.getAccounts(key);
+    }
+
+    /**
+     * 取引先責任者の検索
+     */
+    @AuraEnabled
+    public static Contact getContact(String contactId) {
+        if (String.isEmpty(contactId)) {
+            return new Contact();
+        }
+        return dao.getContact(contactId);
     }
 }

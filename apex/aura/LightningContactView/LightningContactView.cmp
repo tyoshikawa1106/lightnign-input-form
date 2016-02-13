@@ -1,0 +1,117 @@
+<aura:component access="public" controller="ContactViewController">
+    <!-- attribute -->
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="contact" type="Contact" default="{ 'sobjectType': 'Contact'}" />
+    <aura:attribute name="messages" type="String[]" />
+    <aura:attribute name="errorMEssages" type="String[]" />
+    <!-- handler -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <!-- component -->
+    <div class="slds-m-around--medium">
+        <!-- Input Form -->
+        <form name="viewForm" novalidate="true" class="slds-m-horizontal--small">
+            <!-- メッセージ -->
+            <c:LightningContactRegisterMsg messages="{!v.messages}" />
+            <!-- エラーメッセージ -->
+            <c:LightningContactRegisterMsg messages="{!v.errorMessages}" />
+            <!-- 姓 -->
+            <div class="slds-form-element slds-has-divider--bottom">
+                <span class="slds-form-element__label">姓</span>
+                <div class="slds-form-element__control">
+                    <span class="slds-form-element__static" >
+                        <ui:outputText value="{!v.contact.LastName}" />
+                    </span>
+                </div>
+            </div>
+            <!-- 名 -->
+            <div class="slds-form-element slds-has-divider--bottom">
+                <span class="slds-form-element__label">名</span>
+                <div class="slds-form-element__control">
+                    <span class="slds-form-element__static" >
+                        <ui:outputText value="{!v.contact.FirstName}" />
+                    </span>
+                </div>
+            </div>
+            <!-- 取引先 -->
+            <div class="slds-form-element slds-has-divider--bottom">
+                <span class="slds-form-element__label">取引先</span>
+                <div class="slds-form-element__control">
+                    <span class="slds-form-element__static" >
+                        <a href="{!'/' + v.contact.AccountId}" target="_blank">
+                            <ui:outputText value="{!v.contact.Account.Name}" />
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <!-- 電話 -->
+            <div class="slds-form-element slds-has-divider--bottom">
+                <span class="slds-form-element__label">電話</span>
+                <div class="slds-form-element__control">
+                    <span class="slds-form-element__static" >
+                        <ui:outputPhone value="{!v.contact.Phone}" />
+                    </span>
+                </div>
+            </div>
+            <!-- メール -->
+            <div class="slds-form-element slds-has-divider--bottom">
+                <span class="slds-form-element__label">メール</span>
+                <div class="slds-form-element__control">
+                    <span class="slds-form-element__static" >
+                        <ui:outputEmail value="{!v.contact.Email}" />
+                    </span>
+                </div>
+            </div>
+            <!-- メール送信除外 -->
+            <div class="slds-form-element slds-has-divider--bottom">
+                <span class="slds-form-element__label">メール送信除外</span>
+                <div class="slds-form-element__control">
+                    <span class="slds-form-element__static" >
+                        <ui:outputCheckbox value="{!v.contact.HasOptedOutOfEmail}" />
+                    </span>
+                </div>
+            </div>
+            <!-- 誕生日 -->
+            <div class="slds-form-element slds-has-divider--bottom">
+                <span class="slds-form-element__label">誕生日</span>
+                <div class="slds-form-element__control">
+                    <span class="slds-form-element__static" >
+                        <ui:outputDate value="{!v.contact.Birthdate}" />
+                    </span>
+                </div>
+            </div>
+            <!-- リードソース -->
+            <div class="slds-form-element slds-has-divider--bottom">
+                <span class="slds-form-element__label">リードソース</span>
+                <div class="slds-form-element__control">
+                    <span class="slds-form-element__static" >
+                        <ui:outputText value="{!v.contact.LeadSource}" />
+                    </span>
+                </div>
+            </div>
+            <!-- 国 -->
+            <div class="slds-form-element slds-has-divider--bottom">
+                <span class="slds-form-element__label">国</span>
+                <div class="slds-form-element__control">
+                    <span class="slds-form-element__static" >
+                        <ui:outputText value="{!v.contact.MailingCountry}" />
+                    </span>
+                </div>
+            </div>
+            <!-- 説明 -->
+            <div class="slds-form-element slds-has-divider--bottom">
+                <span class="slds-form-element__label">説明</span>
+                <div class="slds-form-element__control">
+                    <span class="slds-form-element__static" >
+                        <ui:outputTextArea value="{!v.contact.Description}" />
+                    </span>
+                </div>
+            </div>
+            <!-- ボタン -->
+            <div class="slds-m-top--medium">
+                <ui:button label="編集" class="slds-button slds-button--brand" press="{!c.editContact}"/>
+                &nbsp;
+                <ui:button label="削除" class="slds-button slds-button--destructive" press="{!c.deleteContact}"/>
+            </div>
+        </form>
+    </div>
+</aura:component>

@@ -1,8 +1,18 @@
-<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable">
+<aura:component access="public" implements="flexipage:availableForAllPageTypes,force:appHostable,force:hasRecordId">
     <!-- Lightning Design System -->
     <ltng:require styles="/resource/SLDS0122/assets/styles/salesforce-lightning-design-system.css" />
+    <!-- attribute -->
+    <aura:attribute name="pageType" type="String" default="input" />
+    <aura:attribute name="recordId" type="Id" />
+    <!-- Lightning Event -->
+    <aura:handler event="c:LightningContactRegisterPageTypeEvt" action="{!c.changePageType}" />
     <!-- componnent -->
     <div class="slds">
-        <c:LightningContactInput />
+        <aura:if isTrue="{!v.pageType == 'input'}">
+            <c:LightningContactInput recordId="{!v.recordId}" />
+        </aura:if>
+        <aura:if isTrue="{!v.pageType == 'view'}">
+            <c:LightningContactView recordId="{!v.recordId}" />
+        </aura:if>
     </div>
 </aura:component>
